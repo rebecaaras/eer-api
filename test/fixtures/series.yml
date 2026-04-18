@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+brazil:
+  country_code: BR
+  country_name: Brazil
+  frequency: Monthly
+  series_type: Nominal
+  basket: Narrow
+
+canada:
+  country_code: CA
+  country_name: Canada
+  frequency: Monthly
+  series_type: Real
+  basket: Broad
