@@ -14,45 +14,65 @@ class SeriesTest < ActiveSupport::TestCase
     end
   end
 
-  test "should not save series without data" do
-    no_code = Series.new(
-      country_name: "Brazil",
-      frequency: "Monthly",
-      series_type: "Nominal",
-      basket: "Narrow"
-    )
-    assert_not no_code.save, "Saved series without country_code"
+  test "should not save series without country_code" do
+    assert_raises(ActiveRecord::RecordInvalid) do
+      Series.new(
+        # country_code: "BR",
+        country_name: "Brazil",
+        frequency: "Monthly",
+        series_type: "Nominal",
+        basket: "Narrow"
+      ).save!
+    end
+  end
 
-    no_country_name = Series.new(
-      country_code: "BR",
-      frequency: "Monthly",
-      series_type: "Nominal",
-      basket: "Narrow"
-    )
-    assert_not no_country_name.save, "Saved series without country_name"
+  test "should not save series without frequency" do
+    assert_raises(ActiveRecord::RecordInvalid) do
+      Series.new(
+        country_code: "BR",
+        country_name: "Brazil",
+        # frequency: "Monthly",
+        series_type: "Nominal",
+        basket: "Narrow"
+      ).save!
+    end
+  end
+  test "should not save series without series_type" do
+    assert_raises(ActiveRecord::RecordInvalid) do
+      Series.new(
+        country_code: "BR",
+        country_name: "Brazil",
+        frequency: "Monthly",
+        # series_type: "Nominal",
+        basket: "Narrow"
+      ).save!
+    end
+  end
 
-    no_frequency = Series.new(
-      country_name: "Brazil",
-      country_code: "BR",
-      series_type: "Nominal",
-      basket: "Narrow"
-    )
-    assert_not no_frequency.save, "Saved series without frequency"
+  test "should not save series without basket" do
+      assert_raises(ActiveRecord::RecordInvalid) do
+        Series.new(
+        country_code: "BR",
+        country_name: "Brazil",
+        frequency: "Monthly",
+        series_type: "Nominal",
+        # basket: "Narrow"
+      ).save!
+    end
+  end
 
-    no_series_type = Series.new(
-      country_name: "Brazil",
-      country_code: "BR",
-      frequency: "Monthly",
-      basket: "Narrow"
-    )
-    assert_not no_series_type.save, "Saved series without series_type"
-
-    no_basket = Series.new(
-      country_name: "Brazil",
-      country_code: "BR",
-      frequency: "Monthly",
-      series_type: "Nominal",
-    )
-    assert_not no_basket.save, "Saved series without basket"
+  test "should raise ActiveRecord::RecordNotUnique if a series with the same 'country_code',\
+       'frequency', 'series_type', 'basket' as an existing one \
+        is tried to be added" do
+    assert_raises(ActiveRecord::RecordNotUnique) do
+      params = { country_code: "BR",
+                country_name: "Brazil",
+                frequency: "Monthly",
+                series_type: "Nominal",
+                basket: "Narrow"
+              }
+      Series.new(params).save!
+      Series.new(params).save!
+    end
   end
 end
