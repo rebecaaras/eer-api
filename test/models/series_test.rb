@@ -1,5 +1,6 @@
 require "test_helper"
 
+# Null violations
 class SeriesTest < ActiveSupport::TestCase
   test "should add one series" do
     assert_difference("Series.count", 1) do
@@ -60,7 +61,7 @@ class SeriesTest < ActiveSupport::TestCase
       ).save!
     end
   end
-
+  # Not unique violation
   test "should raise ActiveRecord::RecordNotUnique if a series with the same 'country_code',\
        'frequency', 'series_type', 'basket' as an existing one \
         is tried to be added" do
@@ -72,6 +73,43 @@ class SeriesTest < ActiveSupport::TestCase
                 basket: "Narrow"
               }
       Series.new(params).save!
+      Series.new(params).save!
+    end
+  end
+
+  # Check violations
+  test "should not accept frequency different of 'monthly'" do
+    assert_raises(ActiveRecord::CheckViolation) do
+      params = { country_code: "CH",
+                country_name: "Switzerland",
+                frequency: "daily",
+                series_type: "Nominal",
+                basket: "Narrow"
+              }
+      Series.new(params).save!
+    end
+  end
+
+  test "should not accept series_type different of 'nominal' or 'real'" do
+    assert_raises(ActiveRecord::CheckViolation) do
+      params = { country_code: "CH",
+                country_name: "Switzerland",
+                frequency: "Monthly",
+                series_type: "nominala",
+                basket: "Narrow"
+              }
+      Series.new(params).save!
+    end
+  end
+
+  test "should not accept basket different of 'narrow' or 'broad'" do
+    assert_raises(ActiveRecord::CheckViolation) do
+      params = { country_code: "CH",
+                country_name: "Switzerland",
+                frequency: "Monthly",
+                series_type: "nominal",
+                basket: "Narrowww"
+              }
       Series.new(params).save!
     end
   end
