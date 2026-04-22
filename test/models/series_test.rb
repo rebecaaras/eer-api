@@ -113,4 +113,22 @@ class SeriesTest < ActiveSupport::TestCase
       Series.new(params).save!
     end
   end
+
+  # Normalization
+  test "should normalize all fields" do
+    params = { country_code: "ch",
+                country_name: "Switzerland",
+                frequency: "MonThly",
+                series_type: "NOMINAL",
+                basket: "Narrow"
+              }
+    series = Series.new(params)
+    series.save!
+
+    assert_equal params[:country_code].upcase, series.country_code, "country_code is not upcase"
+    assert_equal params[:country_name].downcase, series.country_name, "country_name is not downcase"
+    assert_equal params[:frequency].downcase, series.frequency, "frequency is not downcase"
+    assert_equal params[:series_type].downcase, series.series_type, "series_type is not downcase"
+    assert_equal params[:basket].downcase, series.basket, "basket is not downcase"
+  end
 end
