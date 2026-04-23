@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_19_214556) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_22_232424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "observations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "observed_on", null: false
+    t.integer "series_id", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "value", precision: 10, scale: 2, null: false
+    t.index ["series_id"], name: "index_observations_on_series_id"
+  end
 
   create_table "series", id: :serial, force: :cascade do |t|
     t.string "basket", limit: 20, null: false
@@ -30,4 +39,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_19_214556) do
     t.check_constraint "series_type::text = ANY (ARRAY['nominal'::character varying, 'real'::character varying]::text[])", name: "series_type_valid"
     t.unique_constraint ["country_code", "basket", "frequency", "series_type"], name: "unique_series"
   end
+
+  add_foreign_key "observations", "series"
 end
