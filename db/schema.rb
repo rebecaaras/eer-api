@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_22_232424) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_010612) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_232424) do
     t.integer "series_id", null: false
     t.datetime "updated_at", null: false
     t.decimal "value", precision: 10, scale: 2, null: false
+    t.index ["series_id", "observed_on"], name: "index_observations_on_series_id_and_observed_on", unique: true
     t.index ["series_id"], name: "index_observations_on_series_id"
   end
 
