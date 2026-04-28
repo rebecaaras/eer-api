@@ -1,6 +1,7 @@
 class Series < ApplicationRecord
-  validates :country_code, :country_name, :frequency, :series_type, :basket, presence: true
+  has_many :observations
 
+  validates :country_code, :country_name, :frequency, :series_type, :basket, presence: true
   before_save :normalize_attributes!
 
   def normalize_attributes!
