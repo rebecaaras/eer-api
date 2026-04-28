@@ -1,13 +1,13 @@
 be:
-  basket: narrow
   country_code: BE
   country_name: belgium
+  basket: narrow
   frequency: monthly
   series_type: nominal
 
 at:
-  basket: broad
   country_code: AT
   country_name: austria
+  basket: broad
   frequency: monthly
   series_type: real
