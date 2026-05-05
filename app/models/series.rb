@@ -1,16 +1,21 @@
 class Series < ApplicationRecord
   has_many :observations
 
-  validates :country_code, :country_name, :frequency, :series_type, :basket, presence: true
+  validates :frequency, :series_type, :basket, :country_code, :country_name, presence: true
   before_save :normalize_attributes!
 
   def normalize_attributes!
-    self.country_code = country_code.upcase
-    self.country_name = country_name&.downcase
-    self.frequency = frequency&.downcase
-    self.series_type = series_type&.downcase
-    self.basket = basket&.downcase
+    frequency&.downcase!
+    series_type&.downcase!
+    basket&.downcase!
+    country_code&.upcase!
+    country_name&.downcase!
 
     nil
+  end
+
+  def series_ref
+    ref = frequency[0] << series_type[0] << basket[0] << country_code
+    ref.downcase.to_sym # it could be called before save, downcase for safety
   end
 end
