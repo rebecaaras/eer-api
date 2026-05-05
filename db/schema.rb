@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_010612) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_05_204547) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,7 +19,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_010612) do
     t.date "observed_on", null: false
     t.integer "series_id", null: false
     t.datetime "updated_at", null: false
-    t.decimal "value", precision: 10, scale: 2, null: false
+    t.decimal "value", precision: 10, scale: 2
     t.index ["series_id", "observed_on"], name: "index_observations_on_series_id_and_observed_on", unique: true
     t.index ["series_id"], name: "index_observations_on_series_id"
   end
@@ -33,11 +33,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_010612) do
     t.string "series_type", limit: 20, null: false
     t.datetime "updated_at", null: false
 
-    t.check_constraint "basket::text = ANY (ARRAY['narrow'::character varying, 'broad'::character varying]::text[])", name: "basket_valid"
+    t.check_constraint "basket::text = ANY (ARRAY['narrow'::character varying::text, 'broad'::character varying::text])", name: "basket_valid"
     t.check_constraint "country_code::text = upper(country_code::text)", name: "country_code_uppercase"
     t.check_constraint "country_name::text = lower(country_name::text)", name: "country_name_lowercase"
     t.check_constraint "frequency::text = 'monthly'::text", name: "frequency_valid"
-    t.check_constraint "series_type::text = ANY (ARRAY['nominal'::character varying, 'real'::character varying]::text[])", name: "series_type_valid"
+    t.check_constraint "series_type::text = ANY (ARRAY['nominal'::character varying::text, 'real'::character varying::text])", name: "series_type_valid"
     t.unique_constraint ["country_code", "basket", "frequency", "series_type"], name: "unique_series"
   end
 
