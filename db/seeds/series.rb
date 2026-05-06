@@ -76,16 +76,36 @@ series_metadata = {
 eer_table = CSV.table("db/seeds/eer- WS_EER_csv_row.csv", headers: true)
 series_reference = eer_table.headers.drop(1)
 
+series = []
+observations = []
+
 series_reference.each do |series_data|
-  Series.create!(
-    {
-      frequency: series_metadata[:freq][series_data[0].to_sym],
-      series_type: series_metadata[:series_type][series_data[1].to_sym],
-      basket: series_metadata[:basket][series_data[2].to_sym],
-      country_code: series_data.to_s[-2..-1],
-      country_name: series_metadata[:country_code][series_data.to_s[-2..-1].upcase.to_sym]
-    }
-  )
+  series << {
+    frequency: series_metadata[:freq][series_data[0].to_sym],
+    series_type: series_metadata[:series_type][series_data[1].to_sym],
+    basket: series_metadata[:basket][series_data[2].to_sym],
+    country_code: series_data.to_s[-2..-1].upcase,
+    country_name: series_metadata[:country_code][series_data.to_s[-2..-1].upcase.to_sym].downcase
+  }
 end
 
+Series.insert_all(series)
 Rails.logger.info "#{Series.count} series added to database."
+
+Series.find_each do |series|
+  values = eer_table[series.series_ref]
+  next unless values
+
+  eer_table[:time_period].each_with_index do |time, index|
+    next unless time && values[index]
+
+    observations << {
+      series_id: series.id,
+      observed_on: "#{time}-01",
+      value: values[index]
+    }
+  end
+end
+
+Observation.insert_all(observations)
+Rails.logger.info "#{Observation.count} observations added to database."
