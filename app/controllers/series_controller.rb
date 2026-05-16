@@ -4,6 +4,9 @@ class SeriesController < ApplicationController
   # GET /series
   def index
     @series = Series.all
+    @series = @series.where(series_type: params[:series_type]) if params[:series_type]
+    @series = @series.where(basket: params[:basket]) if params[:basket]
+    @series = @series.where(country_name: params[:country_name]) if params[:country_name]
 
     render json: @series
   end
