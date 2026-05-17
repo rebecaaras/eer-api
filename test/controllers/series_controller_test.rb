@@ -30,16 +30,17 @@ class SeriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update series" do
-    patch "/series/1", params: { series: { country_code: "BG" } }, as: :json
-    debugger
-    assert response.body["country_code"], "BG"
+    id = Series.first.id
+    patch "/series/#{id}", params: { series: { country_code: "BW" } }, as: :json
+
+    assert response.body["country_code"], "BW"
     assert_response :success
   end
 
   test "should destroy series" do
-    skip ("Needs to be fixed.")
-    assert_difference("series.count", -1) do
-      delete series_url(@series), as: :json
+    id = Series.first.id
+    assert_difference("Series.count", -1) do
+      delete "/series/#{id}", as: :json
     end
     assert_response :no_content
   end
