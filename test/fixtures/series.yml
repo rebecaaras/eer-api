@@ -11,3 +11,17 @@ at:
   basket: broad
   frequency: monthly
   series_type: real
+
+br:
+  country_code: BR
+  country_name: brazil
+  basket: narrow
+  frequency: monthly
+  series_type: nominal
+
+usa:
+  country_code: US
+  country_name: united states
+  basket: broad
+  frequency: monthly
+  series_type: real
