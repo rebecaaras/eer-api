@@ -39,3 +39,11 @@ production:
   cable:
     <<: *production
     database: eer-api-production-cable
+
+  queue:
+    <<: *production
+    database: eer-api-production-queue
+
+  cache:
+    <<: *production
+    database: eer-api-production-cache
