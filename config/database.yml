@@ -25,12 +25,17 @@ test:
 # Store production database in the storage/ directory, which by default
 # is mounted as a persistent Docker volume in config/deploy.yml.
 production:
-  <<: *default
-  host: localhost
-  adapter: postgresql
-  encoding: utf8
-  database: eer-api-production
-  pool: 5
-  username: <%= ENV['EER_API_DATABASE_USER'] %>
-  password: <%= ENV['EER_API_DATABASE_PASSWORD'] %>
-  prepared_statements: false
+  primary: &production
+    <<: *default
+    host: localhost
+    adapter: postgresql
+    encoding: utf8
+    database: eer-api-production
+    pool: 5
+    username: <%= ENV['EER_API_DATABASE_USER'] %>
+    password: <%= ENV['EER_API_DATABASE_PASSWORD'] %>
+    prepared_statements: false
+
+  cable:
+    <<: *production
+    database: eer-api-production-cable
