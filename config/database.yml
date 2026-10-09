@@ -31,6 +31,6 @@ production:
   encoding: utf8
   database: eer-api-production
   pool: 5
-  username: <%= ENV['EER-API_DATABASE_USER'] %>
-  password: <%= ENV['EER-API_DATABASE_PASSWORD'] %>
+  username: <%= ENV['EER_API_DATABASE_USER'] %>
+  password: <%= ENV['EER_API_DATABASE_PASSWORD'] %>
   prepared_statements: false
