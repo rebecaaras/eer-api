@@ -1,7 +1,7 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
 threads threads_count, threads_count
 
-bind "unix:///home/deploy/eer-api/tmp/sockets/puma.sock"
+bind "unix:///home/rebeca/deploy/eer-api/tmp/sockets/puma.sock"
 environment ENV.fetch("RAILS_ENV")
 preload_app!
 
