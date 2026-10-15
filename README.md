@@ -15,13 +15,9 @@ This is the _backend_ part of the EER API project, you can check the [front-end 
 - Front-end client consuming the API (React + TypeScript)
 - Componentization and Responsiveness (I mostly relied on [Shadcn-UI](https://github.com/shadcn-ui/ui))
 
-## Technical Decisions
-
-As I go through this project many small decisions are made in all layers, you can go to [Decisions & Comments](decisions.md) to have a closer look on my process.
-
 ## Setup
 
-You can run this project locally with:
+You can access this project at [eer-api.rebecaaras.org](https://eer-api.rebecaaras.org/series) or run it locally:
 
 Clone the repo:
 
@@ -37,3 +33,68 @@ bin/setup
 ```
 
 Open in browser and enjoy :)
+
+## Example queries:
+
+Query first series: [eer-api.rebecaaras.org/series/1](https://eer-api.rebecaaras.org/series/1)
+~~~
+{
+  "series": {
+    "id": 1,
+    "basket": "narrow",
+    "country_code": "CA",
+    "country_name": "canada",
+    "frequency": "monthly",
+    "series_type": "nominal"
+  },
+  "data": [
+    {
+      "date": "1964-01-01",
+      "value": "132.69"
+    },
+    {
+      "date": "1964-02-01",
+      "value": "132.74"
+    },
+    {
+      "date": "1964-03-01",
+      "value": "132.66"
+    },
+    {
+      "date": "1964-04-01",
+      "value": "132.62"
+    },
+...
+~~~
+
+Query all series: [eer-api.rebecaaras.org/series](https://eer-api.rebecaaras.org/series)
+~~~
+[
+  {
+    "id": 1,
+    "basket": "narrow",
+    "country_code": "CA",
+    "country_name": "canada",
+    "created_at": "2026-10-09T16:03:40.014Z",
+    "frequency": "monthly",
+    "series_type": "nominal",
+    "updated_at": "2026-10-09T16:03:40.014Z"
+  },
+  {
+    "id": 2,
+    "basket": "narrow",
+    "country_code": "CH",
+    "country_name": "switzerland",
+    "created_at": "2026-10-09T16:03:40.014Z",
+    "frequency": "monthly",
+    "series_type": "nominal",
+    "updated_at": "2026-10-09T16:03:40.014Z"
+  },
+...
+~~~
+
+Filter by country_name (or any other param you want):
+[eer-api.rebecaaras.org/series?country_name=spain](https://eer-api.rebecaaras.org/series?country_name=spain)
+~~~
+[{"id":11,"basket":"narrow","country_code":"ES","country_name":"spain","created_at":"2026-10-09T16:03:40.014Z","frequency":"monthly","series_type":"nominal","updated_at":"2026-10-09T16:03:40.014Z"},{"id":41,"basket":"broad","country_code":"ES","country_name":"spain","created_at":"2026-10-09T16:03:40.014Z","frequency":"monthly","series_type":"nominal","updated_at":"2026-10-09T16:03:40.014Z"},{"id":119,"basket":"narrow","country_code":"ES","country_name":"spain","created_at":"2026-10-09T16:03:40.014Z","frequency":"monthly","series_type":"real","updated_at":"2026-10-09T16:03:40.014Z"},{"id":161,"basket":"broad","country_code":"ES","country_name":"spain","created_at":"2026-10-09T16:03:40.014Z","frequency":"monthly","series_type":"real","updated_at":"2026-10-09T16:03:40.014Z"}]
+~~~
